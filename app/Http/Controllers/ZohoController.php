@@ -95,17 +95,13 @@ class ZohoController extends Controller
     
             if ($dealResponse->successful()) {
                 $dealResponse = $dealResponse->json();
-                dd($dealData, $dealResponse);
                 // Deal created successfully
                 $dataId = $dealResponse['data'][0]["details"]['id'];
 
                 //Do something with DataId if required
                 
     
-                if ($accountResponse->successful()) {
-                    // Account created successfully
-                    return response()->json(['message' => 'Deal and Account created successfully']);
-                }
+                return response()->json(['message' => 'Deal and Account created successfully']);
             }
 
             return response()->json(['message' => 'Account created successfully, but failed to create Deal']);
