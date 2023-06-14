@@ -17,15 +17,17 @@ const validityState = {
     ],
     accountWebsite: [
         value => {
-            if (value?.length > 3) return true;
-            return 'Account website is required.';
+            if (value?.length > 8 && (/^(http|https):\/\/[^ "]+$/.test(value))) return true;
+            return 'A valid website is required.';
         },
     ],
     accountPhone: [
         value => {
-            const phoneNumberRegex = /^\d{10}$/; // Regular expression to match 10-digit phone numbers
+            // const phoneNumberRegex = /^\d{10}$/; // Regular expression to match 10-digit phone numbers
+            const phoneNumberRegex = /^(\+|\d)\d+$/; // Regular expression to match 10-digit phone numbers
             if (phoneNumberRegex.test(value)) return true;
-            return 'Invalid phone number. Please enter a 10-digit number.';
+            // return 'Invalid phone number. Please enter a 10-digit number.';
+            return 'Invalid phone number. Please enter a phone number.';
         },
     ]
 }

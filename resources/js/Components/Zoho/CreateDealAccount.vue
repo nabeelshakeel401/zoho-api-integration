@@ -32,6 +32,19 @@ export default {
     const accountWebsite = ref('');
     const accountPhone = ref('');
     const handleSubmit = () => {
+        // let formValidated = true;
+
+        let errorFields = document.querySelectorAll('form.v-form .v-field--error');
+        console.log(errorFields);
+        if (typeof errorFields != 'undefined' && errorFields.length > 0) {
+            // formValidated = false;
+            Swal.fire(
+                'An error occurred!',
+                `Please fix the highlighted errors!`,
+                'error'
+            );
+            return;
+        }
 
       axios.post('/createDealAndAccount', {
         deal_name: dealName.value,
@@ -41,16 +54,22 @@ export default {
         account_phone: accountPhone.value
       })
         .then(response => {
-          console.log(response.data);
-          Swal.fire(
-            `${response.data.message}`,
-            'success'
-          );
+        //   console.log(response.data);
+            Swal.fire(
+                'Data Submitted!',
+                `${response.data.message}`,
+                'success'
+            );
           // Display success message
         })
         .catch(error => {
-          console.error(error);
-          // Display error message
+            console.error(error);
+            // Display error message
+            Swal.fire(
+                'An error occurred!',
+                `${error.data.message}`,
+                'error'
+            );
         });
 
     };
@@ -74,69 +93,3 @@ fieldset {
   border: 1px solid gray;
 }
 </style>
-<!-- <template>
-  <div>
-    <form @submit.prevent="submitForm">
-      <div>
-        <label for="deal-name">Deal Name:</label>
-        <input type="text" id="deal-name" v-model="dealName" required>
-      </div>
-      <div>
-        <label for="deal-stage">Deal Stage:</label>
-        <input type="text" id="deal-stage" v-model="dealStage" required>
-      </div>
-      <div>
-        <label for="account-name">Account Name:</label>
-        <input type="text" id="account-name" v-model="accountName" required>
-      </div>
-      <div>
-        <label for="account-website">Account Website:</label>
-        <input type="text" id="account-website" v-model="accountWebsite" required>
-      </div>
-      <div>
-        <label for="account-phone">Account Phone:</label>
-        <input type="text" id="account-phone" v-model="accountPhone" required>
-      </div>
-      <div>
-        <button type="submit">Create</button>
-      </div>
-    </form>
-  </div>
-</template>
-
-<script>
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      dealName: '',
-      dealStage: '',
-      accountName: '',
-      accountWebsite: '',
-      accountPhone: '',
-    };
-  },
-  methods: {
-    submitForm() {
-      const data = {
-        deal_name: this.dealName,
-        stage: this.dealStage,
-        account_name: this.accountName,
-        website: this.accountWebsite,
-        phone: this.accountPhone,
-      };
-
-      axios.post('/createDealAndAccount', data)
-        .then(response => {
-          console.log(response.data);
-          // Display success message
-        })
-        .catch(error => {
-          console.error(error);
-          // Display error message
-        });
-    },
-  },
-};
-</script> -->
